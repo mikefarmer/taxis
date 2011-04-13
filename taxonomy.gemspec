@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Michael Farmer"]
   s.email       = ["mfarmer@endpoint.com"]
-  s.homepage    = "www.endpoint.com"
+  s.homepage    = "http://github.com/mikefarmer/taxis"
   s.summary     = %q{Rails engine that adds a simple taxonomy structure to your application}
   s.description = %q{Rails engine that adds a simple taxonomy structure to your application}
 

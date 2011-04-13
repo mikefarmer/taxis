@@ -16,7 +16,18 @@ module Taxis
       unless options[:skip_jquery]
         if ! defined? Jquery
           gem 'jquery-rails', '>= 0.2.6'
-          say "jquery-rails has been added to your Gemfile. You need to run bundle install and then rerun this generator", :red
+
+          jqry_msg = <<-TXT
+The taxis default admin views require jquery for their use. As such, jquery-rails
+was added to your gemfile.  You need to run "bundle install" and rerun this generator
+to finish installing taxis. If you don't want to use jquery, you can provide the --skip-jquery
+option when running the generator, but this will break the admin views.
+NOTE: This will also remove the prototype javascript framework from your application.
+See https://github.com/indirect/jquery-rails for more information.
+TXT
+
+
+          say jqry_msg, :red
           exit
         else
           generate "jquery:install"
