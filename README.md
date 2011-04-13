@@ -14,7 +14,7 @@ Taxis provides a very simple interface for administrating the taxonomy. This int
  * nested_set
 
 # Credit
-Taxis is heavily based off the taxonomy system currently implemented in Spree (http://spreecommerce.com/) The taxonomy.js file used in the admin views was completely taken from Spree with only a few minor modifications. The admin controllers and models have been written from the ground up to isolate functionality only needed for the gem.
+Taxis is heavily based off the taxonomy system originally written by Sonny Cook as currently implemented in Spree (http://spreecommerce.com/). While much of the views are the same, the admin controllers and models have been written from the ground up to isolate functionality only needed for the gem.
 
 # Contributing
 Fork, modify, send me a pull request
