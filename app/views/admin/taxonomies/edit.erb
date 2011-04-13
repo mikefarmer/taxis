@@ -1,0 +1,29 @@
+<%= render :partial => "js_head" %>
+
+<h1><%= t("taxonomy_edit")%></h1>
+
+<p id="ajax_error" class="errorExplanation" style="display:none;"></p>
+
+<%= form_for(:taxon, :url => admin_taxonomy_url, :html => { :method => :put }) do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+	  <div>
+	    <label>Taxonomy Tree</label><br />
+      <div id="taxonomy_tree" class="tree"></div>
+  	</div>
+  	<p id="progress" style="display:none;">
+       <%= image_tag('spinner.gif', :alt =>  "Spinner", :style => "vertical-align:bottom") %>
+       <%= t('updating') %>..
+    </p>
+
+	<p class="form-buttons">
+	  <%= f.submit %> <%= link_to "Back to Taxonomies", admin_taxonomies_path %>
+  </p>
+<% end %>
+
+
+<% content_for :head do %>
+  <script type="text/javascript">
+    var initial = <%= raw @tree.to_json %>;
+
+  </script>
+<% end %>

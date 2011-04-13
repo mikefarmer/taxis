@@ -1,0 +1,20 @@
+<table class="index" id='listing_taxonomies'>
+  <tr>
+    <th><%= "Name" %></th>
+    <th>&nbsp;</th>
+  </tr>
+<% for taxonomy in @taxonomies %>
+  <tr id="<%= dom_id taxonomy %>">
+	  <td>
+	    <%= taxonomy.name %>
+    </td>
+    <td class="actions">
+      <%= link_to "Edit", edit_admin_taxonomy_url(taxonomy.id), :class => 'edit' %>
+      &nbsp;
+      <%= link_to "Delete", admin_taxonomy_path(taxonomy), :confirm => 'Are you sure?', :method => :delete %>
+      
+    </td>
+  </tr>
+<% end %>
+</table>
+

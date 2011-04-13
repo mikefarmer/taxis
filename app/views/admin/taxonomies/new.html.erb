@@ -1,0 +1,11 @@
+
+<h1><%= t("new_taxonomy") %></h1>
+
+<%= form_for(:taxonomy, :url => '/admin/taxonomies') do |f| %>
+
+	<%= render :partial => "form", :locals => { :f => f } %>
+
+	<p class="form-buttons">
+	  <%= f.submit %> or <%= link_to "Cancel", admin_taxonomies_url %>
+  </p>
+<% end %>
