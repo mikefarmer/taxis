@@ -1,5 +1,6 @@
 class Admin::BaseController < ApplicationController
   layout 'admin'
+  include Taxis::ControllerHelpers
 
   # For the gem
   unloadable
@@ -9,17 +10,5 @@ class Admin::BaseController < ApplicationController
   protected
 
 
-  def tree_children(taxon)
-    children = []
-    taxon.children.each do |taxon|
-      children << {
-        :attr => {:id => taxon.id.to_s},
-        :data => taxon.name,
-        :state => taxon.children.empty? ? "" : "closed"
-      }
-    end
-    
-    return children
-  end
 
 end

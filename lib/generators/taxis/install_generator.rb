@@ -54,6 +54,8 @@ TXT
         copy_file 'jsTree/' + file, dest_root + file
       end
 
+      copy_file 'images/spinner.gif', 'public/images/spinner.gif'
+
 
     end
 
