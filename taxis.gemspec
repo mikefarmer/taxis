@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{Rails engine that adds a simple taxonomy structure to your application}
   s.description = %q{Rails engine that adds a simple taxonomy structure to your application}
 
-  s.rubyforge_project = "taxonomy"
+  s.rubyforge_project = "taxis"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
