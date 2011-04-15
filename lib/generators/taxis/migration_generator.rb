@@ -12,7 +12,9 @@ module Taxis
     def self.next_migration_number(dirname)
       @sequence ||= 0
       @sequence += 1
-      Time.now.utc.strftime("%Y%m%d%H%M%S") + @sequence.to_s
+      # Replace the last second with the sequence number
+      # so that you don't get duplicate version numbers'
+      Time.now.utc.strftime("%Y%m%d%H%M%S").chop + @sequence.to_s
     end
 
     def create_migration_file

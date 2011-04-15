@@ -57,7 +57,7 @@ module Taxis
     end
 
     # Removes an attached ActiveRecord object from a taxon
-    def detatch(klass)
+    def detach(klass)
       ti = self.taxon_items.where(:taxonable_type => klass.class.to_s, :taxonable_id => klass[:id]).first
       ti.delete if ti
       klass.reload
@@ -65,17 +65,52 @@ module Taxis
       return klass
     end
 
+    def attach_by_param(class_name, row_id)
+      klass = get_klass(class_name)
+      if klass
+        row = klass.find_by_id row_id
+        if row
+          attach(row)
+        else
+          raise "#{class_name} record does not exist."
+        end
+      else
+        raise "Invalid class name '#{class_name}'"
+      end
+      return row
+    end
+
+    def detach_by_param(class_name, row_id)
+      klass = get_klass(class_name)
+      if klass
+        row = klass.find_by_id row_id
+        if row
+          detach(row)
+        else
+          raise "#{class_name} record does not exist."
+        end
+
+      else
+        raise "Invalid class name '#{class_name}'"
+      end
+      return row
+    end
+
 
     def method_missing(obj, *args)
       if obj.match(/attached_(.*)/)
         table_name = $1
         class_name = table_name.classify
-        klass = Kernel.const_get(class_name)
-        records = klass.find_by_sql <<-SQL
-          SELECT n.* 
-          FROM #{table_name} n 
-          JOIN taxon_items ti ON ti.taxonable_id = n.id AND taxonable_type = '#{class_name}'
-        SQL
+        klass = get_klass(class_name)
+        if klass
+          records = klass.find_by_sql <<-SQL
+            SELECT n.* 
+            FROM #{table_name} n 
+            JOIN taxon_items ti ON ti.taxonable_id = n.id AND taxonable_type = '#{class_name}'
+          SQL
+        else
+          raise "Unknown attached class name '#{class_name}'"
+        end
 
         return records || []
 
@@ -93,6 +128,10 @@ module Taxis
     end
 
 
+    def get_klass(class_name)
+      klass = Kernel.const_get(class_name)
+      return klass.respond_to?('find_by_sql') ? klass : nil
+    end
 
 
 

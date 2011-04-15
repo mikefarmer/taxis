@@ -7,9 +7,6 @@ describe Taxon, "associations" do
     @product2 = Product.create(:name => "product2")
     @page = Page.create(:name => "page1")
     @taxon = Taxon.create(:name => "taxon_test")
-    2.times do |x|
-      @taxon.children.create(Taxon.new(:name => "kiddo #{x}"))
-    end
 
     @taxon.attach @product
     @taxon.attach @page
@@ -29,9 +26,14 @@ describe Taxon, "associations" do
       lambda { @taxon.products }.should raise_error
     end
 
+    it "should not respond to a non-activerecord class" do
+      class ::Breadcrumb; end
+      lambda { @taxon.attached_breadcrumbs }.should raise_error
+    end
+
   end
 
-  describe "attaching and detatching" do
+  describe "attaching and detaching" do
     
 
     it "should have a correct taxonable_type" do
@@ -42,16 +44,40 @@ describe Taxon, "associations" do
     end
 
 
-    it "should detatch a record" do
+    it "should detach a record" do
       @taxon.attach(@product2)
-      @taxon.detatch(@product2)
+      @taxon.detach(@product2)
       @taxon.attached_products.should_not include @product2
     end
 
     it "should allow attaching to child taxons" do
+      @taxon.children.create(Taxon.new(:name => "child1"))
       child = @taxon.children.last
       child.attach(@product)
       child.attached_products.should include @product
+    end
+
+    describe "when attaching or detaching by param" do
+      it "should attach" do
+        p = Product.create(:name => "test")
+        @taxon.attach_by_param('Product', p.id)
+        @taxon.attached_products.last.should == p
+      end
+
+      it "should detach" do
+        p = @taxon.attached_products.last
+        @taxon.detach_by_param('Product', p.id)
+        @taxon.attached_products.should_not include p
+      end
+
+      it "should not allow invalid params" do
+        lambda { @taxon.attach_by_param 'Invalid Class Name', 1 }.should raise_error
+        lambda { @taxon.attach_by_param 'Product', 1000 }.should raise_error
+        lambda { @taxon.detach_by_param 'Invalid Class Name', 1 }.should raise_error
+        lambda { @taxon.detach_by_param 'Product', 1000 }.should raise_error
+      end
+
+      
     end
 
     describe "when multiple types are attached to a single taxon" do

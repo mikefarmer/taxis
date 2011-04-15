@@ -80,6 +80,47 @@ class Admin::TaxonsController < Admin::BaseController
     
   end
 
+  # Attach a class to a taxon
+  # params should have a class name, i.e. 'Product'
+  # and an id.
+  # In the view you should send params like :attach_class => 'Product', :attach_id => 1
+  def attach
+    @taxon = Taxon.find params[:id]
+    result = nil
+    begin
+      @taxon.attach_by_param(params[:attach_class], params[:attach_id])
+      result = "ok"
+    rescue
+      result = "Invalid parameters"
+    end
+    
+    if params[:format] == :json
+      render :json => result
+    else
+      redirect_to edit_admin_taxonomy_url(@taxon.taxonomy), :notice => result
+    end
+  end
+
+  # Detach a class from a taxon
+  # params should have a class name, i.e. 'Product'
+  # and an id.
+  # In the view you should send params like :attach_class => 'Product', :attach_id => 1
+  def detach
+    @taxon = Taxon.find params[:id]
+    result = nil
+    begin
+      @taxon.detach_by_param(params[:attach_class], params[:attach_id])
+      result = "ok"
+    rescue
+      result = "Invalid parameters"
+    end
+    
+    if params[:format] == :json
+      render :json => result
+    else
+      redirect_to edit_admin_taxonomy_url(@taxon.taxonomy), :notice => result
+    end
+  end
 
   private 
 
