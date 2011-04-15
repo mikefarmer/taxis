@@ -66,34 +66,11 @@ module Taxis
     end
 
     def attach_by_param(class_name, row_id)
-      klass = get_klass(class_name)
-      if klass
-        row = klass.find_by_id row_id
-        if row
-          attach(row)
-        else
-          raise "#{class_name} record does not exist."
-        end
-      else
-        raise "Invalid class name '#{class_name}'"
-      end
-      return row
+      return manage_by_param(:attach, class_name, row_id)
     end
 
     def detach_by_param(class_name, row_id)
-      klass = get_klass(class_name)
-      if klass
-        row = klass.find_by_id row_id
-        if row
-          detach(row)
-        else
-          raise "#{class_name} record does not exist."
-        end
-
-      else
-        raise "Invalid class name '#{class_name}'"
-      end
-      return row
+      return manage_by_param(:detach, class_name, row_id)
     end
 
 
@@ -127,6 +104,28 @@ module Taxis
       @parent_taxon ||= Taxon.find(self.parent_id)
     end
 
+
+    def manage_by_param(method, class_name, row_id)
+      klass = get_klass(class_name)
+      if klass
+        row = klass.find_by_id row_id
+        if row
+          if method == :attach
+            attach(row)
+          elsif method == :detach
+            detach(row)
+          else
+            raise "Unknown method"
+          end
+        else
+          raise "#{class_name} record does not exist."
+        end
+
+      else
+        raise "Invalid class name '#{class_name}'"
+      end
+      return row
+    end
 
     def get_klass(class_name)
       klass = Kernel.const_get(class_name)
