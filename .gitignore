@@ -5,3 +5,4 @@
 .bundle
 Gemfile.lock
 pkg/*
+spec/dummy/log/*
