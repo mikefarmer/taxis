@@ -18,6 +18,7 @@ module Taxis
     def create_migration_file
       migration_template 'create_taxonomies.rb', 'db/migrate/create_taxonomies.rb'
       migration_template 'create_taxons.rb', 'db/migrate/create_taxons.rb'
+      migration_template 'create_taxon_items.rb', 'db/migrate/create_taxon_items.rb'
     end
 
    

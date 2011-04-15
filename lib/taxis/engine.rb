@@ -1,7 +1,6 @@
 require 'taxis'
 require 'rails'
-require 'nested_set'
-require 'stringex'
+
 
 
 module Taxis

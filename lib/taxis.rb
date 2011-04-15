@@ -1,4 +1,7 @@
+
+
 module Taxis
-  require 'taxis/engine' if defined?(Rails)
+ 
+  require 'taxis/engine' 
   require 'taxis/controller_helpers'
 end

@@ -11,6 +11,9 @@ module Taxis
       @source_root ||= File.join(File.dirname(__FILE__), 'public')
     end
 
+    def dependent_gems
+      
+    end
 
     def ensure_jquery_gem
       unless options[:skip_jquery]

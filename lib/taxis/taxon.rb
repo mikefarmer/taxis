@@ -66,6 +66,25 @@ module Taxis
     end
 
 
+    def method_missing(obj, *args)
+      if obj.match(/attached_(.*)/)
+        table_name = $1
+        class_name = table_name.classify
+        klass = Kernel.const_get(class_name)
+        records = klass.find_by_sql <<-SQL
+          SELECT n.* 
+          FROM #{table_name} n 
+          JOIN taxon_items ti ON ti.taxonable_id = n.id AND taxonable_type = '#{class_name}'
+        SQL
+
+        return records || []
+
+      else
+        super
+      end
+    end
+
+
 
     private
 
