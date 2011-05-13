@@ -5,6 +5,8 @@ class CreateTaxonomies < ActiveRecord::Migration
       t.text :description
       t.timestamps
     end
+
+    add_index :taxonomies, :name
   end
 
   def self.down
